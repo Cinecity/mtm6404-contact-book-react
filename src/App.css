@@ -31,6 +31,10 @@ a:hover {
     box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
 }
 
+.contact-list {
+    justify-content: space-between;
+}
+
 /* Form Styles */
 form {
     max-width: 400px;
@@ -116,4 +120,8 @@ button:disabled {
     background-color: #b02a37;
 }
 
+.add-button {
+    margin-left: 10px;
+    margin-right: 10px;
+}
 

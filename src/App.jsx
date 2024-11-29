@@ -50,7 +50,9 @@ function App() {
                 className="search-bar"
             />
 
-            <Link to="/add"><button>Add Contact</button></Link>
+            <Link to="/add">
+            <button className="add-button">Add Contact</button>
+            </Link>
 
             {/* Display filtered contacts */}
             {filteredContacts.map((contact) => (
