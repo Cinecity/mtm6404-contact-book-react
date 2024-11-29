@@ -89,3 +89,31 @@ button:disabled {
     align-items: center;
     gap: 15px;
 }
+
+.edit-form button {
+    width: 100%;
+    max-width: 300px;
+    padding: 10px;
+    margin: 5px 0;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.edit-form button:hover {
+    background-color: #0056b3;
+}
+
+.edit-form button.delete {
+    background-color: #dc3545;
+}
+
+.edit-form button.delete:hover {
+    background-color: #b02a37;
+}
+
+

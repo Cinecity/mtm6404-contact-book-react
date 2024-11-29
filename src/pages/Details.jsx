@@ -70,7 +70,7 @@ export const Details = () => {
             <>
                 <button onClick={handleBack}>Back to Contacts</button>
                 <EditForm contact={contact} onUpdate={handleUpdate} />
-                <button onClick={handleContactDelete}>Delete Contact</button>
+                <button className="delete" onClick={handleContactDelete}>Delete Contact</button>
             </>
         ) : (
             <div>
