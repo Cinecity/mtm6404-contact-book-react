@@ -1,3 +1,22 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 10rem;
+    padding: 0;
+    background-color: #f4f4f9;
+    color: #333;
+}
+
+a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Contact Styles */
 .contact-list {
     display: flex;
     flex-direction: column;
