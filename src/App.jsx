@@ -59,7 +59,7 @@ function App() {
                     id={contact.id}
                     firstName={contact.firstName}
                     lastName={contact.lastName}
-                    email={contact.email}
+                    // email={contact.email}
                 />
             ))}
 
