@@ -1,73 +1,22 @@
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import db from './utils/db';
-import { collection, getDocs, orderBy, query } from 'firebase/firestore';
-import './App.css';
-
-export const Contact = ({ id, firstName, lastName, email }) => {
-    return (
-        <div className='contact'>
-            <Link to={`/details/${id}`}>
-                <h2>{`${firstName} ${lastName}`}</h2>
-                <p>{email}</p>
-            </Link>
-        </div>
-    );
-};
+// src/App.js
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import HomePage from './components/HomePage';
+import ContactDetails from './components/ContactDetails';
+import NewContact from './components/NewContact';
+import EditContact from './components/EditContact';
 
 function App() {
-    const [contactlist, setContactlist] = useState([]);
-    const [searchTerm, setSearchTerm] = useState(""); // State for search input
-
-    const fetchContactlist = async () => {
-        const q = query(collection(db, "contacts"), orderBy("lastName", "asc"));
-        const docsSnapshot = await getDocs(q);
-        const data = docsSnapshot.docs.map(doc => ({
-            id: doc.id,
-            ...doc.data()
-        }));
-        setContactlist(data);
-    };
-
-    useEffect(() => {
-        fetchContactlist();
-    }, []);
-
-    // Filter contacts based on search term
-    const filteredContacts = contactlist.filter(contact => {
-        const fullName = `${contact.firstName} ${contact.lastName}`.toLowerCase();
-        return fullName.includes(searchTerm.toLowerCase());
-    });
-
-    return (
-        <div className='contact-list'>
-            {/* Search Bar */}
-            <input
-                type="text"
-                placeholder="Search by name..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="search-bar"
-            />
-
-            <Link to="/add">
-            <button className="add-button">Add Contact</button>
-            </Link>
-
-            {/* Display filtered contacts */}
-            {filteredContacts.map((contact) => (
-                <Contact
-                    key={contact.id}
-                    id={contact.id}
-                    firstName={contact.firstName}
-                    lastName={contact.lastName}
-                    // email={contact.email}
-                />
-            ))}
-
-            {/* <Link to="/add"><button>Add Contact</button></Link> */}
-        </div>
-    );
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/contact/:id" element={<ContactDetails />} />
+        <Route path="/new-contact" element={<NewContact />} />
+        <Route path="/edit-contact/:id" element={<EditContact />} />
+      </Routes>
+    </Router>
+  );
 }
 
 export default App;
