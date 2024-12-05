@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../db';
+import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 
 function ContactDetails() {

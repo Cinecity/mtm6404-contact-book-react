@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import db from "../utils/db";
+import { db } from "../db";
 import { doc, getDoc, updateDoc, deleteDoc } from "firebase/firestore";
 import { useParams, useNavigate } from "react-router-dom";
 import { EditForm } from "../components/EditForm";
 
-export const Details = () => {
+
+const Details = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const [contact, setContact] = useState({});
@@ -82,3 +83,5 @@ export const Details = () => {
     
     );
 };
+
+export default Details;

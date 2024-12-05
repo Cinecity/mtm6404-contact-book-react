@@ -1,78 +1,59 @@
-// src/components/EditContact.js
 import React, { useEffect, useState } from 'react';
-import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../db';
-import { useParams, useNavigate } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
-function EditContact() {
+function ContactDetails() {
   const { id } = useParams();
-  const navigate = useNavigate();
-  const [contact, setContact] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-  });
+  const [contact, setContact] = useState(null);
 
   useEffect(() => {
+    let isMounted = true;
+
     const fetchContact = async () => {
-      const contactDoc = doc(db, 'contacts', id);
-      const contactSnapshot = await getDoc(contactDoc);
-      if (contactSnapshot.exists()) {
-        setContact(contactSnapshot.data());
+      try {
+        const contactDoc = doc(db, 'contacts', id);
+        const contactSnapshot = await getDoc(contactDoc);
+        if (isMounted) {
+          if (contactSnapshot.exists()) {
+            setContact(contactSnapshot.data());
+          } else {
+            setContact({ error: 'Contact not found' });
+          }
+        }
+      } catch (error) {
+        if (isMounted) {
+          setContact({ error: 'An error occurred while fetching the contact' });
+        }
       }
     };
 
     fetchContact();
+
+    return () => {
+      isMounted = false;
+    };
   }, [id]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setContact({ ...contact, [name]: value });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const contactDoc = doc(db, 'contacts', id);
-      await updateDoc(contactDoc, contact);
-      navigate(`/contact/${id}`);
-    } catch (error) {
-      console.error('Error updating document:', error);
-    }
-  };
+  if (!contact) return <div>Loading...</div>;
+  if (contact.error) return <div>{contact.error}</div>;
 
   return (
     <div>
-      <h1>Edit Contact</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="firstName"
-          placeholder="First Name"
-          value={contact.firstName}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="text"
-          name="lastName"
-          placeholder="Last Name"
-          value={contact.lastName}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={contact.email}
-          onChange={handleChange}
-          required
-        />
-        <button type="submit">Update Contact</button>
-      </form>
+      <h1>Contact Details</h1>
+      <p>First Name: {contact.firstName}</p>
+      <p>Last Name: {contact.lastName}</p>
+      <p>Email: {contact.email}</p>
+      <div style={{ marginTop: '20px' }}>
+        <Link to={`/edit-contact/${id}`} aria-label="Edit Contact">
+          <button>Edit Contact</button>
+        </Link>
+        <Link to="/" aria-label="Go to Home" style={{ marginLeft: '10px' }}>
+          <button>Go to Home</button>
+        </Link>
+      </div>
     </div>
   );
 }
 
-export default EditContact;
+export default ContactDetails;
